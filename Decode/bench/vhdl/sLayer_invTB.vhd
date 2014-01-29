@@ -46,8 +46,8 @@ USE ieee.std_logic_1164.ALL;
 USE ieee.std_logic_unsigned.all;
 USE ieee.numeric_std.ALL;
  
-ENTITY sLayerTB IS
-END sLayerTB;
+ENTITY sLayer_invTB IS
+END sLayer_invTB;
  
 ARCHITECTURE behavior OF sLayer_invTB IS 
  
