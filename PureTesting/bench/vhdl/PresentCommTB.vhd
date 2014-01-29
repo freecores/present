@@ -106,10 +106,10 @@ BEGIN
    stim_proc: process
 	
 	-- Variables
-	file txt :text is in "test/data.txt";
-	file key  :text is in "test/key.txt";
-	file txt2 :text is in "test/data2.txt";
-	file key2  :text is in "test/key2.txt";
+	file txt :text is in "../src/test/data.txt";
+	file key  :text is in "../src/test/key.txt";
+	file txt2 :text is in "../src/test/data2.txt";
+	file key2  :text is in "../src/test/key2.txt";
 	
 	variable line_in      : line;
 	variable line_content : string(1 to 8);
@@ -301,7 +301,7 @@ BEGIN
 			DATA_RXD <= data; -- parity bit
 			wait for 8.75 us;
 			
-			report "Koniec bajtu";
+			report "End of byte";
 			DATA_RXD <= '1'; -- stop bit
 			wait for 100 us;
 		end loop;
@@ -360,7 +360,7 @@ BEGIN
 			DATA_RXD <= data; -- parity bit
 			wait for 8.75 us;
 			
-			report "Koniec bajtu";
+			report "End of byte";
 			DATA_RXD <= '1'; -- stop bit
 			wait for 100 us;
 		end loop;
