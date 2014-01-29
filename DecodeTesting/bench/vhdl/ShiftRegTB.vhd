@@ -42,7 +42,6 @@
 -----------------------------------------------------------------------
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
-use work.RSAFinalizerProperties.ALL;
  
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -59,8 +58,8 @@ ARCHITECTURE behavior OF ShiftRegTB IS
 --	 generic (length_1      : integer :=  WORD_LENGTH;
 --	          length_2      : integer :=  BYTE
 	 GENERIC (
-	     length_1      : integer :=  BYTE;
-	     length_2      : integer :=  WORD_LENGTH
+	     length_1      : integer :=  8;
+	     length_2      : integer :=  64
 	 );
     PORT(
         input  : in  STD_LOGIC_VECTOR(7 downto 0);
@@ -122,6 +121,7 @@ BEGIN
       wait for 100 ns;	
 		reset <= '1';
       wait for clk_period*10;
+		reset <= '0';
 		en <= '1';
 		wait for clk_period*1;
 		en <= '0';
