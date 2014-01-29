@@ -108,7 +108,7 @@ BEGIN
    -- Stimulus process
    stim_proc: process
 	
-	file infile :text is in "wejscie.txt";
+	file infile :text is in "input.txt";
 	variable line_in :line;
 	variable bytes : std_logic_vector(32 downto 0);
 	variable bytes2 : std_logic_vector(3 downto 0);
@@ -185,9 +185,9 @@ BEGIN
 		variable str :string(1 to 29);
 		variable lineout :line;
 		variable init_file :std_logic := '1';
-		file outfile :text is out "wyjscie.txt";
+		file outfile :text is out "output.txt";
 		
-		-------- funkcja konwersji: std_logic_vector => character --------
+		-------- conversion function: std_logic_vector => character --------
 		function conv_to_hex_char (sig: std_logic_vector(3 downto 0)) RETURN character IS
 			begin
 			case sig is
@@ -210,7 +210,7 @@ BEGIN
 			end case;
 		end conv_to_hex_char;
 		
-		-------- funkcja konwersji: std_logic => character --------
+		-------- conversion function: std_logic => character --------
 		function conv_to_char (sig: std_logic) RETURN character IS
 			begin
 			case sig is
@@ -221,7 +221,7 @@ BEGIN
 			end case;
 		end conv_to_char;
 		
-		-------- funkcja konwersji: std_logic_vector => string --------
+		-------- conversion function: std_logic_vector => string --------
 		function conv_to_string (inp: std_logic_vector; length: integer) RETURN string IS
 			variable x : integer := length/4;
 			variable s : string(1 to x);
@@ -234,7 +234,7 @@ BEGIN
 		
 		-------------------------------------
 		begin
-		-------- nag³ówek pliku wyjœciowego (podzia³ kolumn) --------
+		-------- output file header (columns) --------
 			if init_file = '1' then
 				str:="clk                          ";
 				write(lineout,str); writeline(outfile,lineout);
@@ -253,7 +253,7 @@ BEGIN
 				init_file := '0';
 			end if;
 		
-		-------- zapis danych do pliku wyjsciowego „wyjscie” --------
+		-------- write to output „output” --------
 			if (strobe'EVENT and strobe='0') then
 				str := (others => ' ');
 				str(1) := conv_to_char(clk);
