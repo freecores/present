@@ -105,6 +105,11 @@ BEGIN
    stim_proc: process
    begin		
 
+---- Preparation for test case 1 -----------------
+--   key <= x"00000000000000000000";
+--   expected_key_end <= x"6dab31744f41d7008759";
+--------------------------------------------------
+
 		reset <= '1';
       start <= '0';
 		wait for 100 ns;	
@@ -112,27 +117,72 @@ BEGIN
 		
 		key <= (others => '0');
 		start <= '1';
-      wait for clk_period*40;
+      wait until ready = '1';
+		
+		if key_end /= x"6dab31744f41d7008759" then
+			report "RESULT MISMATCH! Test case 1 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 1 successful" severity note;	
+		end if;
+
+---- Preparation for test case 2 -----------------
+--   key <= x"ffffffffffffffffffff";
+--   expected_key_end <= x"fe7a548fb60eb167c511";
+--------------------------------------------------
+
 		start <= '0';
 		wait for clk_period;
 		
 		key <= (others => '1');
 		start <= '1';
-      wait for clk_period*40;
+      wait until ready = '1';
+		
+		if key_end /= x"fe7a548fb60eb167c511" then
+			report "RESULT MISMATCH! Test case 2 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 2 successful" severity note;	
+		end if;
+
+---- Preparation for test case 3 -----------------
+--   key <= x"00000000000000000000";
+--   expected_key_end <= x"6dab31744f41d7008759";
+--   same as test case 1
+--------------------------------------------------
+		
 		start <= '0';
 		wait for clk_period;
-		
+
 		key <= (others => '0');
 		start <= '1';
-      wait for clk_period*40;
+      wait until ready = '1';
+		
+		if key_end /= x"6dab31744f41d7008759" then
+			report "RESULT MISMATCH! Test case 3 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 3 successful" severity note;	
+		end if;
+
+---- Preparation for test case 4 -----------------
+--   key <= x"ffffffffffffffffffff";
+--   expected_key_end <= x"fe7a548fb60eb167c511";
+--------------------------------------------------
+		
 		start <= '0';
 		wait for clk_period;
 		
 		key <= (others => '1');
 		start <= '1';
-      wait for clk_period*40;
-		start <= '0';
-		wait for clk_period;
+      wait until ready = '1';
+
+		if key_end /= x"fe7a548fb60eb167c511" then
+			report "RESULT MISMATCH! Test case 4 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 4 successful" severity note;	
+		end if;
 		
 		assert false severity failure;
 

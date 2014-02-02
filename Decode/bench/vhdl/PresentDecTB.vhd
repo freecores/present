@@ -109,6 +109,12 @@ BEGIN
    -- Stimulus process
    stim_proc: process
    begin		
+      
+---- Preparation for test case 1 -----------------
+--   plaintext <= x"5579c1387b228445";
+--   key <= x"6dab31744f41d7008759";
+--   expected_ciphertext <= x"0000000000000000";
+--------------------------------------------------
 
 		reset <= '1';
       start <= '0';
@@ -120,30 +126,77 @@ BEGIN
 		plaintext <= x"5579c1387b228445";
 		key <= x"6dab31744f41d7008759";
 		start <= '1';
-      wait for clk_period*40;
+		wait until ready = '1';
+		
+		if ciphertext /= x"0000000000000000" then
+			report "RESULT MISMATCH! Test case 1 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 1 successful" severity note;	
+		end if;
+
+---- Preparation for test case 2 -----------------
+--   plaintext <= x"e72c46c0f5945049";
+--   key <= x"fe7a548fb60eb167c511";
+--   expected_ciphertext <= x"0000000000000000";
+--------------------------------------------------
+		
 		start <= '0';
 		wait for clk_period;
 		
 		plaintext <= x"e72c46c0f5945049";
 		key <= x"fe7a548fb60eb167c511";
 		start <= '1';
-      wait for clk_period*40;
+		wait until ready = '1';
+		
+		if ciphertext /= x"0000000000000000" then
+			report "RESULT MISMATCH! Test case 2 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 2 successful" severity note;	
+		end if;
+
+---- Preparation for test case 3 -----------------
+--   plaintext <= x"a112ffc72f68417b";
+--   key <= x"6dab31744f41d7008759";
+--   expected_ciphertext <= x"ffffffffffffffff";
+--------------------------------------------------
+
 		start <= '0';
 		wait for clk_period;
 		
 		plaintext <= x"a112ffc72f68417b";
 		key <= x"6dab31744f41d7008759";
 		start <= '1';
-      wait for clk_period*40;
+      wait until ready = '1';
+		
+		if ciphertext /= x"ffffffffffffffff" then
+			report "RESULT MISMATCH! Test case 3 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 3 successful" severity note;	
+		end if;
+
+---- Preparation for test case 4 -----------------
+--   plaintext <= x"3333dcd3213210d2";
+--   key <= x"fe7a548fb60eb167c511";
+--   expected_ciphertext <= x"ffffffffffffffff";
+--------------------------------------------------
+
 		start <= '0';
 		wait for clk_period;
 		
 		plaintext <= x"3333dcd3213210d2";
 		key <= x"fe7a548fb60eb167c511";
 		start <= '1';
-      wait for clk_period*40;
-		start <= '0';
-		wait for clk_period;
+		wait until ready = '1';
+		
+		if ciphertext /= x"ffffffffffffffff" then
+			report "RESULT MISMATCH! Test case 4 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 4 successful" severity note;	
+		end if;
 		
 		assert false severity failure;
 
