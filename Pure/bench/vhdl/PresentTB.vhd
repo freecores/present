@@ -115,33 +115,87 @@ BEGIN
 		wait for 100 ns;	
 		reset <= '0';
 		
+---- Preparation for test case 1 -----------------
+--   plaintext <= x"0000000000000000";
+--   key <= x"00000000000000000000";
+--   expected_ciphertext <= x"5579c1387b228445";
+--------------------------------------------------
+
 		plaintext <= (others => '0');
 		key <= (others => '0');
 		start <= '1';
-      wait for clk_period*40;
+      
+		wait until ready = '1' and clk = '0';
+		
+		if ciphertext /= x"5579c1387b228445" then
+			report "RESULT MISMATCH! Test case 1 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 1 successful" severity note;	
+		end if;
+		
+---- Preparation for test case 2 -----------------
+--   plaintext <= x"0000000000000000";
+--   key <= x"ffffffffffffffffffff";
+--   expected_ciphertext <= x"e72c46c0f5945049";
+--------------------------------------------------		
+		
 		start <= '0';
 		wait for clk_period;
 		
 		plaintext <= (others => '0');
 		key <= (others => '1');
 		start <= '1';
-      wait for clk_period*40;
+      wait until ready = '1' and clk = '0';
+		
+      if ciphertext /= x"e72c46c0f5945049" then
+			report "RESULT MISMATCH! Test case 2 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 2 successful" severity note;	
+		end if;
+
+---- Preparation for test case 3 -----------------
+--   plaintext <= x"a112ffc72f68417b";
+--   key <= x"00000000000000000000";
+--   expected_ciphertext <= x"ffffffffffffffff";
+--------------------------------------------------
+		
 		start <= '0';
 		wait for clk_period;
 		
 		plaintext <= (others => '1');
 		key <= (others => '0');
 		start <= '1';
-      wait for clk_period*40;
+      wait until ready = '1' and clk = '0';
+		
+		if ciphertext /= x"a112ffc72f68417b" then
+			report "RESULT MISMATCH! Test case 3 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 3 successful" severity note;	
+		end if;
+
+---- Preparation for test case 4 -----------------
+--   plaintext <= x"ffffffffffffffff";
+--   key <= x"ffffffffffffffffffff";
+--   expected_ciphertext <= x"3333dcd3213210d2";
+--------------------------------------------------
+		
 		start <= '0';
 		wait for clk_period;
 		
 		plaintext <= (others => '1');
 		key <= (others => '1');
 		start <= '1';
-      wait for clk_period*40;
-		start <= '0';
-		wait for clk_period;
+      wait until ready = '1' and clk = '0';
+		
+		if ciphertext /= x"3333dcd3213210d2" then
+			report "RESULT MISMATCH! Test case 4 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 4 successful" severity note;	
+		end if;
 		
 		assert false severity failure;
 
