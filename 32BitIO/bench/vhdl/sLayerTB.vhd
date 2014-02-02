@@ -98,12 +98,52 @@ BEGIN
       wait for 100ns;	
 		reset <= '0';
       wait for clk_period;
+		
+---- Preparation for test case 1 -----------------
+--   inpput <= x"0";
+--   expected_output <= x"";
+--------------------------------------------------
+		
 		input <= x"0";
       wait for clk_period;
+
+		if output /= x"C" then
+			report "RESULT MISMATCH! Test case 1 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 1 successful" severity note;	
+		end if;
+
+---- Preparation for test case 2 -----------------
+--   inpput <= x"0";
+--   expected_output <= x"";
+--------------------------------------------------
+		
 		input <= x"A";
       wait for clk_period;
+
+		if output /= x"F" then
+			report "RESULT MISMATCH! Test case 2 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 2 successful" severity note;	
+		end if;
+
+---- Preparation for test case 3 -----------------
+--   inpput <= x"0";
+--   expected_output <= x"";
+--------------------------------------------------
+		
 		input <= x"F";
       wait for clk_period;
+		
+		if output /= x"2" then
+			report "RESULT MISMATCH! Test case 3 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 3 successful" severity note;	
+		end if;
+		
       -- insert stimulus here 
 		assert false severity failure;
    end process;

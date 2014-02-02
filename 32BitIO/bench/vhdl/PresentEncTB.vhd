@@ -42,8 +42,6 @@
 -----------------------------------------------------------------------
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
-USE ieee.std_logic_unsigned.all;
-USE ieee.numeric_std.ALL;
 USE std.textio.all;
 USE work.txt_util.all;
 USE ieee.std_logic_textio.all;
@@ -110,7 +108,8 @@ BEGIN
 	
 	file infile :text is in "input.txt";
 	variable line_in :line;
-	variable bytes : std_logic_vector(32 downto 0);
+	variable line_string : string(1 to 12);
+	variable bytes : std_logic_vector(31 downto 0);
 	variable bytes2 : std_logic_vector(3 downto 0);
 	variable xbit : std_logic;
 	
@@ -123,58 +122,131 @@ BEGIN
 		reset <= '0';
 		wait for 10ns;
       -- insert stimulus here 
+		-- Below loop which iterates through "input.txt" file
 			while not (endfile(infile)) loop
-				readline(infile, line_in);		--2
+			   
+				readline(infile, line_in);  -- info line
+				read(line_in, line_string);
+				report line_string;
+				
+				readline(infile, line_in);  -- info line
+				read(line_in, line_string);
+				report line_string;
+				
+				readline(infile, line_in);  -- command line "no operation to prepare encoder"
 				hread(line_in, bytes2);
 				ctrl <= bytes2;
 				wait for clk_period;
-				readline(infile, line_in);		-- 1
+				
+				readline(infile, line_in);  -- info line
+				read(line_in, line_string);
+				report line_string;
+				
+				readline(infile, line_in);  -- command line for reading key 1/3
 				hread(line_in, bytes2);
 				ctrl <= bytes2;
-				readline(infile, line_in);
+				readline(infile, line_in); -- read data
 				read(line_in, xbit);
 				input <= (others => xbit);
 				wait for clk_period;
-				readline(infile, line_in);
+				
+				readline(infile, line_in);  -- info line
+				read(line_in, line_string);
+				report line_string;
+				
+				readline(infile, line_in);  -- command line for reading key 2/3
 				hread(line_in, bytes2);
 				ctrl <= bytes2;
-				readline(infile, line_in);
+				readline(infile, line_in);  -- read data
 				read(line_in, xbit);
 				input <= (others => xbit);
 				wait for clk_period;
-				readline(infile, line_in);
+				
+				readline(infile, line_in);  -- info line
+				read(line_in, line_string);
+				report line_string;				
+				
+				readline(infile, line_in);  -- command line for reading key 3/3
 				hread(line_in, bytes2);
 				ctrl <= bytes2;
-				readline(infile, line_in);
+				readline(infile, line_in);  -- read data
 				read(line_in, xbit);
 				input <= (others => xbit);
 				wait for clk_period;
-				readline(infile, line_in);
+				
+				readline(infile, line_in);  -- info line
+				read(line_in, line_string);
+				report line_string;	
+				
+				readline(infile, line_in);  -- command line for reading text 1/2
 				hread(line_in, bytes2);
 				ctrl <= bytes2;
-				readline(infile, line_in);
+				readline(infile, line_in);  --read data
 				read(line_in, xbit);
 				input <= (others => xbit);
 				wait for clk_period;
-				readline(infile, line_in);
+				
+				readline(infile, line_in);  -- info line
+				read(line_in, line_string);
+				report line_string;	
+				
+				readline(infile, line_in);  -- command line for reading text 2/2
 				hread(line_in, bytes2);
 				ctrl <= bytes2;
-				readline(infile, line_in);
+				readline(infile, line_in);  --read data
 				read(line_in, xbit);
 				input <= (others => xbit);
 				wait for clk_period;
-				readline(infile, line_in);
+				
+				readline(infile, line_in);  -- info line
+				read(line_in, line_string);
+				report line_string;	
+				
+				readline(infile, line_in);  -- command line for coding input text to ciphertext
 				hread(line_in, bytes2);
 				ctrl <= bytes2;			
 				wait for clk_period*33;
-				readline(infile, line_in);
+				
+				readline(infile, line_in);  -- info line
+				read(line_in, line_string);
+				report line_string;	
+				
+				readline(infile, line_in);  -- command line for retrieving output 1/2
 				hread(line_in, bytes2);
 				ctrl <= bytes2;			
 				wait for clk_period;
-				readline(infile, line_in);
+				
+				readline(infile, line_in);  -- retrieve expected value 1/2 from input file
+				hread(line_in, bytes);
+				
+				if output /= bytes then
+				    report "RESULT MISMATCH! Least significant bytes failed" severity ERROR;
+			       assert false severity failure;
+				else
+				    report "Least significant bytes successful" severity note;	
+				end if;
+				
+				readline(infile, line_in);  -- info line
+				read(line_in, line_string);
+				report line_string;	
+				
+				readline(infile, line_in);  -- command line for retrieving output 2/2
 				hread(line_in, bytes2);
 				ctrl <= bytes2;			
 				wait for clk_period*2;
+				
+				readline(infile, line_in);  -- retrieve expected value 3/2 from input file
+				hread(line_in, bytes);
+				
+				if output /= bytes then
+				    report "RESULT MISMATCH! Most significant bytes failed" severity ERROR;
+			       assert false severity failure;
+				else
+				    report "Most significant bytes successful" severity note;	
+				end if;
+				
+				report "";	-- "new line"
+				
 			end loop;
 		assert false severity failure;
    end process;
@@ -253,7 +325,7 @@ BEGIN
 				init_file := '0';
 			end if;
 		
-		-------- write to output „output” --------
+		-------- write to output "output" --------
 			if (strobe'EVENT and strobe='0') then
 				str := (others => ' ');
 				str(1) := conv_to_char(clk);
