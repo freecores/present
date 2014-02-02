@@ -124,6 +124,8 @@ BEGIN
 		
       wait for CLK_period*10;
 
+	  -- All data are sent in direction from LSB to MSB
+
 	  -- Reading first 'data' file  each "segment" is one bit of serial data
       while not (endfile(txt)) loop
 			readline(txt, line_in);  -- info line
@@ -180,7 +182,7 @@ BEGIN
 			DATA_RXD <= data; -- parity bit
 			wait for 8.75 us;
 			
-			report "Koniec bajtu";
+			report "End of byte";
 			DATA_RXD <= '1'; -- stop bit
 			wait for 100 us;
 		end loop;
@@ -239,7 +241,7 @@ BEGIN
 			DATA_RXD <= data; -- parity bit
 			wait for 8.75 us;
 			
-			report "Koniec bajtu";
+			report "End of byte";
 			DATA_RXD <= '1'; -- stop bit
 			wait for 100 us;
 		end loop;
@@ -301,7 +303,7 @@ BEGIN
 			DATA_RXD <= data; -- parity bit
 			wait for 8.75 us;
 			
-			report "Koniec bajtu";
+			report "End of byte";
 			DATA_RXD <= '1'; -- stop bit
 			wait for 100 us;
 		end loop;
@@ -360,7 +362,7 @@ BEGIN
 			DATA_RXD <= data; -- parity bit
 			wait for 8.75 us;
 			
-			report "Koniec bajtu";
+			report "End of byte";
 			DATA_RXD <= '1'; -- stop bit
 			wait for 100 us;
 		end loop;

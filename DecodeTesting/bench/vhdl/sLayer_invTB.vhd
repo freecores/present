@@ -89,7 +89,6 @@ BEGIN
 		wait for clk_period/2;
    end process;
  
-
    -- Stimulus process
    stim_proc: process
    begin		
@@ -98,13 +97,52 @@ BEGIN
       wait for 100ns;	
 		reset <= '0';
       wait for clk_period;
+
+------------- Test case 1 ------------------------
+--   input <= x"0";
+--   expected_output <= x"5";
+--------------------------------------------------		
+
 		input <= x"0";
       wait for clk_period;
+		
+		if output /= x"5" then
+			report "RESULT MISMATCH! Test case 1 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 1 successful" severity note;	
+		end if;
+		
+------------- Test case 2 ------------------------
+--   input <= x"A";
+--   expected_output <= x"6";
+--------------------------------------------------		
+		
 		input <= x"A";
       wait for clk_period;
+		
+		if output /= x"6" then
+			report "RESULT MISMATCH! Test case 2 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 2 successful" severity note;	
+		end if;
+
+------------- Test case 3 ------------------------
+--   input <= x"F";
+--   expected_output <= x"A";
+--------------------------------------------------		
+		
 		input <= x"F";
       wait for clk_period;
-      -- insert stimulus here 
+		
+		if output /= x"A" then
+			report "RESULT MISMATCH! Test case 3 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 3 successful" severity note;	
+		end if;
+
 		assert false severity failure;
    end process;
 
