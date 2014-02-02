@@ -111,7 +111,7 @@ BEGIN
    end process;
  
 
-   -- Stimulus process
+  -- Stimulus process
    stim_proc: process
    begin		
       reset <= '0';
@@ -121,14 +121,41 @@ BEGIN
       wait for 100 ns;	
 		reset <= '1';
       wait for clk_period*10;
+		
 		reset <= '0';
 		en <= '1';
 		wait for clk_period*1;
+		
 		en <= '0';
 		wait for clk_period*1;
+
+------------- Test case 1 ------------------------
+--   expected_output <= x"aa00000000000000";
+--------------------------------------------------
+		
+		if output /= x"aa00000000000000" then
+			report "RESULT MISMATCH! Test case 1 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 1 successful" severity note;	
+		end if;
+		
 		shift <= '1';
 		wait for clk_period*10;
-      assert false severity failure;
+      
+------------- Test case 2 ------------------------
+--   expected_output <= x"002a800000000000";
+--------------------------------------------------
+		
+		if output /= x"002a800000000000" then
+			report "RESULT MISMATCH! Test case 2 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 2 successful" severity note;	
+		end if;
+				
+		
+		assert false severity failure;
    end process;
 
 END;

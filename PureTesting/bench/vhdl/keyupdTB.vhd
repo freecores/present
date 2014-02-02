@@ -105,18 +105,75 @@ BEGIN
       wait for 100ns;	
 		reset <='0';
       wait for clk_period;
-		key <= "00000000000000000000000000000000000000000000000000000000000000000000000000000000";
+		
+---- Preparation for test case 1 -----------------
+--   key <= x"00000000000000000000";
+--   num <= "00001";
+--   expected_keyout <= x"c0000000000000008000";
+--------------------------------------------------
+		
+		key <= (others => '0');
 		num <= "00001";
 		wait for clk_period;
+		
+		if keyout /= x"c0000000000000008000" then
+			report "RESULT MISMATCH! Test case 1 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 1 successful" severity note;	
+		end if;
+		
+---- Preparation for test case 2 -----------------
+--   key <= x"c0000000000000008000";
+--   num <= "00010";
+--   expected_keyout <= x"50001800000000010000";
+--------------------------------------------------
+		
 		key <= x"c0000000000000008000";
 		num <= "00010";
 		wait for clk_period;
+		
+		if keyout /= x"50001800000000010000" then
+			report "RESULT MISMATCH! Test case 2 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 2 successful" severity note;	
+		end if;
+		
+---- Preparation for test case 3 -----------------
+--   key <= x"50001800000000010000";
+--   num <= "00011";
+--   expected_keyout <= x"60000a00030000018000";
+--------------------------------------------------
+		
 		key <= x"50001800000000010000";
 		num <= "00011";
 		wait for clk_period;
+
+		if keyout /= x"60000a00030000018000" then
+			report "RESULT MISMATCH! Test case 3 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 3 successful" severity note;	
+		end if;
+		
 		key <= x"8ba27a0eb8783ac96d59";
 		num <= "11111";
 		wait for clk_period;
+		
+---- Preparation for test case 4 -----------------
+--   key <= x"8ba27a0eb8783ac96d59";
+--   num <= "11111";
+--   expected_keyout <= x"6dab31744f41d7008759";
+--------------------------------------------------
+		
+		if keyout /= x"6dab31744f41d7008759" then
+			report "RESULT MISMATCH! Test case 4 failed" severity ERROR;
+			assert false severity failure;
+		else
+			report "Test case 4 successful" severity note;	
+		end if;
+		
 		assert false severity failure;
    end process;
 END;

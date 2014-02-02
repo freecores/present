@@ -106,10 +106,10 @@ BEGIN
    stim_proc: process
 	
 	-- Variables
-	file txt :text is in "../src/test/data.txt";
-	file key  :text is in "../src/test/key.txt";
-	file txt2 :text is in "../src/test/data2.txt";
-	file key2  :text is in "../src/test/key2.txt";
+	file txt :text is in "./test/data.txt";
+	file key  :text is in "./test/key.txt";
+	file txt2 :text is in "./test/data2.txt";
+	file key2  :text is in "./test/key2.txt";
 	
 	variable line_in      : line;
 	variable line_content : string(1 to 8);
@@ -123,6 +123,8 @@ BEGIN
 		RESET <= '0';
 		
       wait for CLK_period*10;
+
+	  -- All data are sent in direction from LSB to MSB
 
 	  -- Reading first 'data' file  each "segment" is one bit of serial data
       while not (endfile(txt)) loop
